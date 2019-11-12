@@ -10,14 +10,6 @@ public class ImageRecognition : MonoBehaviour
 {
     private ARTrackedImageManager trackedImageManager;
 
-    [SerializeField] private GameObject[] uniRooms;
-
-    public GameObject[] MyPlane
-    {
-        get { return uniRooms; }
-        set { uniRooms = value; }
-    }
-
     [SerializeField] private Camera arCamera;
     public Camera Camera
     {
@@ -29,6 +21,11 @@ public class ImageRecognition : MonoBehaviour
 
     private void Awake()
     {
+        GameObject[] g = GameObject.FindGameObjectsWithTag("Respawn");
+        foreach (GameObject child in g)
+        {
+            child.SetActive(false);
+        }
         trackedImageManager = FindObjectOfType<ARTrackedImageManager>();
     }
 
@@ -53,17 +50,27 @@ public class ImageRecognition : MonoBehaviour
 
     //private void Start()
     //{
-    //    Vector3 bruh = uniRooms[0].transform.position;
-    //    Physics.Raycast(arCamera.ScreenPointToRay(bruh), out RaycastHit hit);
+    //    Ray ray = arCamera.ScreenPointToRay(touchPosition);
+    //    Physics.Raycast(ray, out RaycastHit hitObject);
+    //    if (hitObject.collider.gameObject.GetComponent<Renderer>().enabled == true)
     //    {
-    //        hit.collider.gameObject.GetComponent<Renderer>().enabled = false;
+    //        GameObject g = hitObject.collider.gameObject;
+    //        g.SetActive(true);
+    //        foreach (Transform child in g.transform)
+    //        {
+    //            if (child.gameObject.activeSelf == true)
+    //            {
+    //                child.gameObject.SetActive(false);
+    //            }
+    //        }
     //    }
-        
-
     //}
+
 
     void Update()
     {
+        
+
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -75,13 +82,15 @@ public class ImageRecognition : MonoBehaviour
                 Ray ray = arCamera.ScreenPointToRay(touchPosition);
                 if (Physics.Raycast(ray, out RaycastHit hitObject))
                 {
-                    if (hitObject.collider.gameObject.GetComponent<Renderer>().enabled == false)
+                    if (hitObject.collider.gameObject.GetComponent<Renderer>().enabled == true)
                     {
-                        hitObject.collider.gameObject.GetComponent<Renderer>().enabled = true;
+                        GameObjectController goc = gameObject.AddComponent<GameObjectController>();
+                        goc.ToggleChildren(hitObject.collider.gameObject, true);
                     }
                     else
                     {
-                        hitObject.collider.gameObject.GetComponent<Renderer>().enabled = false;
+                        GameObjectController goc = gameObject.AddComponent<GameObjectController>();
+                        goc.ToggleChildren(hitObject.collider.gameObject, false);
                     }
                 }
             }

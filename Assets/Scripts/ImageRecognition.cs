@@ -21,11 +21,6 @@ public class ImageRecognition : MonoBehaviour
 
     private void Awake()
     {
-        GameObject[] g = GameObject.FindGameObjectsWithTag("Respawn");
-        foreach (GameObject child in g)
-        {
-            child.SetActive(false);
-        }
         trackedImageManager = FindObjectOfType<ARTrackedImageManager>();
     }
 
@@ -47,24 +42,6 @@ public class ImageRecognition : MonoBehaviour
             imageTracked.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
         }
     }
-
-    //private void Start()
-    //{
-    //    Ray ray = arCamera.ScreenPointToRay(touchPosition);
-    //    Physics.Raycast(ray, out RaycastHit hitObject);
-    //    if (hitObject.collider.gameObject.GetComponent<Renderer>().enabled == true)
-    //    {
-    //        GameObject g = hitObject.collider.gameObject;
-    //        g.SetActive(true);
-    //        foreach (Transform child in g.transform)
-    //        {
-    //            if (child.gameObject.activeSelf == true)
-    //            {
-    //                child.gameObject.SetActive(false);
-    //            }
-    //        }
-    //    }
-    //}
 
 
     void Update()
